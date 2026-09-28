@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
+struct node
+{
     int data;
     struct node *prev, *next;
 };
@@ -9,7 +10,8 @@ struct node {
 struct node *head = NULL;
 
 /* Create a new list */
-void create() {
+void create()
+{
     int n, i, x;
     struct node *newnode, *temp;
 
@@ -18,7 +20,8 @@ void create() {
     printf("Enter number of elements: ");
     scanf("%d", &n);
 
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < n; i++)
+    {
         printf("Enter data: ");
         scanf("%d", &x);
 
@@ -27,9 +30,12 @@ void create() {
         newnode->prev = NULL;
         newnode->next = NULL;
 
-        if (head == NULL) {
+        if (head == NULL)
+        {
             head = newnode;
-        } else {
+        }
+        else
+        {
             temp = head;
             while (temp->next != NULL)
                 temp = temp->next;
@@ -41,16 +47,19 @@ void create() {
 }
 
 /* Print the list */
-void printList() {
+void printList()
+{
     struct node *temp = head;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         printf("List is empty.\n");
         return;
     }
 
     printf("List: ");
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         printf("%d ", temp->data);
         temp = temp->next;
     }
@@ -58,7 +67,8 @@ void printList() {
 }
 
 /* Insert at first */
-void insertFirst() {
+void insertFirst()
+{
     int x;
     struct node *newnode;
 
@@ -77,7 +87,8 @@ void insertFirst() {
 }
 
 /* Insert at last */
-void insertLast() {
+void insertLast()
+{
     int x;
     struct node *newnode, *temp;
 
@@ -88,7 +99,8 @@ void insertLast() {
     newnode->data = x;
     newnode->next = NULL;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         newnode->prev = NULL;
         head = newnode;
         return;
@@ -103,19 +115,22 @@ void insertLast() {
 }
 
 /* Insert at given position */
-void insertPosition() {
+void insertPosition()
+{
     int x, pos, i;
     struct node *newnode, *temp;
 
     printf("Enter position: ");
     scanf("%d", &pos);
 
-    if (pos <= 0) {
+    if (pos <= 0)
+    {
         printf("Invalid position.\n");
         return;
     }
 
-    if (pos == 1) {
+    if (pos == 1)
+    {
         insertFirst();
         return;
     }
@@ -127,7 +142,8 @@ void insertPosition() {
     for (i = 1; i < pos - 1 && temp != NULL; i++)
         temp = temp->next;
 
-    if (temp == NULL) {
+    if (temp == NULL)
+    {
         printf("Invalid position.\n");
         return;
     }
@@ -145,7 +161,8 @@ void insertPosition() {
 }
 
 /* Insert after given data */
-void insertAfterData() {
+void insertAfterData()
+{
     int x, value;
     struct node *temp, *newnode;
 
@@ -157,7 +174,8 @@ void insertAfterData() {
     while (temp != NULL && temp->data != value)
         temp = temp->next;
 
-    if (temp == NULL) {
+    if (temp == NULL)
+    {
         printf("Data not found.\n");
         return;
     }
@@ -178,10 +196,12 @@ void insertAfterData() {
 }
 
 /* Delete first */
-void deleteFirst() {
+void deleteFirst()
+{
     struct node *temp;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         printf("List is empty.\n");
         return;
     }
@@ -196,10 +216,12 @@ void deleteFirst() {
 }
 
 /* Delete last */
-void deleteLast() {
+void deleteLast()
+{
     struct node *temp;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         printf("List is empty.\n");
         return;
     }
@@ -218,11 +240,13 @@ void deleteLast() {
 }
 
 /* Delete from given position */
-void deletePosition() {
+void deletePosition()
+{
     int pos, i;
     struct node *temp;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         printf("List is empty.\n");
         return;
     }
@@ -230,7 +254,8 @@ void deletePosition() {
     printf("Enter position: ");
     scanf("%d", &pos);
 
-    if (pos <= 0) {
+    if (pos <= 0)
+    {
         printf("Invalid position.\n");
         return;
     }
@@ -240,7 +265,8 @@ void deletePosition() {
     for (i = 1; i < pos && temp != NULL; i++)
         temp = temp->next;
 
-    if (temp == NULL) {
+    if (temp == NULL)
+    {
         printf("Invalid position.\n");
         return;
     }
@@ -257,7 +283,8 @@ void deletePosition() {
 }
 
 /* Delete given data */
-void deleteData() {
+void deleteData()
+{
     int value;
     struct node *temp;
 
@@ -269,7 +296,8 @@ void deleteData() {
     while (temp != NULL && temp->data != value)
         temp = temp->next;
 
-    if (temp == NULL) {
+    if (temp == NULL)
+    {
         printf("Data not found.\n");
         return;
     }
@@ -286,11 +314,13 @@ void deleteData() {
 }
 
 /* Count elements */
-void count() {
+void count()
+{
     int c = 0;
     struct node *temp = head;
 
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         c++;
         temp = temp->next;
     }
@@ -299,15 +329,18 @@ void count() {
 }
 
 /* Search presence */
-void searchPresence() {
+void searchPresence()
+{
     int value;
     struct node *temp = head;
 
     printf("Enter data to search: ");
     scanf("%d", &value);
 
-    while (temp != NULL) {
-        if (temp->data == value) {
+    while (temp != NULL)
+    {
+        if (temp->data == value)
+        {
             printf("Data is present.\n");
             return;
         }
@@ -318,15 +351,18 @@ void searchPresence() {
 }
 
 /* Find position */
-void searchPosition() {
+void searchPosition()
+{
     int value, pos = 1;
     struct node *temp = head;
 
     printf("Enter data to search: ");
     scanf("%d", &value);
 
-    while (temp != NULL) {
-        if (temp->data == value) {
+    while (temp != NULL)
+    {
+        if (temp->data == value)
+        {
             printf("Data found at position %d.\n", pos);
             return;
         }
@@ -338,14 +374,16 @@ void searchPosition() {
 }
 
 /* Count occurrences */
-void searchCount() {
+void searchCount()
+{
     int value, c = 0;
     struct node *temp = head;
 
     printf("Enter data to search: ");
     scanf("%d", &value);
 
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         if (temp->data == value)
             c++;
 
@@ -356,18 +394,23 @@ void searchCount() {
 }
 
 /* Sort the list */
-void sortList() {
+void sortList()
+{
     struct node *i, *j;
     int temp;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         printf("List is empty.\n");
         return;
     }
 
-    for (i = head; i->next != NULL; i = i->next) {
-        for (j = i->next; j != NULL; j = j->next) {
-            if (i->data > j->data) {
+    for (i = head; i->next != NULL; i = i->next)
+    {
+        for (j = i->next; j != NULL; j = j->next)
+        {
+            if (i->data > j->data)
+            {
                 temp = i->data;
                 i->data = j->data;
                 j->data = temp;
@@ -379,16 +422,19 @@ void sortList() {
 }
 
 /* Reverse the list */
-void reverseList() {
+void reverseList()
+{
     struct node *temp = NULL;
     struct node *current = head;
 
-    if (head == NULL) {
+    if (head == NULL)
+    {
         printf("List is empty.\n");
         return;
     }
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         temp = current->prev;
         current->prev = current->next;
         current->next = temp;
@@ -403,10 +449,12 @@ void reverseList() {
 }
 
 /* Main menu */
-int main() {
+int main()
+{
     int choice;
 
-    do {
+    do
+    {
         printf("\n========== DOUBLY LINKED LIST ==========\n");
         printf("1.  Create a new list\n");
         printf("2.  Print the list\n");
@@ -428,80 +476,388 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        switch (choice) {
-            case 1:
-                create();
-                break;
+        switch (choice)
+        {
+        case 1:
+            create();
+            break;
 
-            case 2:
-                printList();
-                break;
+        case 2:
+            printList();
+            break;
 
-            case 3:
-                insertFirst();
-                break;
+        case 3:
+            insertFirst();
+            break;
 
-            case 4:
-                insertLast();
-                break;
+        case 4:
+            insertLast();
+            break;
 
-            case 5:
-                insertPosition();
-                break;
+        case 5:
+            insertPosition();
+            break;
 
-            case 6:
-                insertAfterData();
-                break;
+        case 6:
+            insertAfterData();
+            break;
 
-            case 7:
-                deleteFirst();
-                break;
+        case 7:
+            deleteFirst();
+            break;
 
-            case 8:
-                deleteLast();
-                break;
+        case 8:
+            deleteLast();
+            break;
 
-            case 9:
-                deletePosition();
-                break;
+        case 9:
+            deletePosition();
+            break;
 
-            case 10:
-                deleteData();
-                break;
+        case 10:
+            deleteData();
+            break;
 
-            case 11:
-                count();
-                break;
+        case 11:
+            count();
+            break;
 
-            case 12:
-                searchPresence();
-                break;
+        case 12:
+            searchPresence();
+            break;
 
-            case 13:
-                searchPosition();
-                break;
+        case 13:
+            searchPosition();
+            break;
 
-            case 14:
-                searchCount();
-                break;
+        case 14:
+            searchCount();
+            break;
 
-            case 15:
-                sortList();
-                break;
+        case 15:
+            sortList();
+            break;
 
-            case 16:
-                reverseList();
-                break;
+        case 16:
+            reverseList();
+            break;
 
-            case 17:
-                printf("Program terminated.\n");
-                break;
+        case 17:
+            printf("Program terminated.\n");
+            break;
 
-            default:
-                printf("Invalid choice.\n");
+        default:
+            printf("Invalid choice.\n");
         }
 
     } while (choice != 17);
+
+    return 0;
+}
+// -- -- -- -- -- -- -- -- -- -- -- --2nd one-- -- -- -- -- -- -- -- -- -- --
+#include <stdio.h>
+
+void bubbleSort(int a[], int n)
+{
+    int i, j, temp, swapped;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        swapped = 0;
+
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (a[j] > a[j + 1])
+            {
+                temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+                swapped = 1;
+            }
+        }
+
+        if (swapped == 0)
+            break;
+    }
+}
+
+void insertionSentinel(int a[], int n)
+{
+    int i, j, key;
+
+    for (i = 2; i <= n; i++)
+    {
+        key = a[i];
+        a[0] = key; // Sentinel
+        j = i - 1;
+
+        while (a[j] > key)
+        {
+            a[j + 1] = a[j];
+            j--;
+        }
+
+        a[j + 1] = key;
+    }
+}
+
+void shellSort(int a[], int n)
+{
+    int gap, i, j, temp;
+
+    for (gap = n / 2; gap > 0; gap = gap / 2)
+    {
+        for (i = gap; i < n; i++)
+        {
+            temp = a[i];
+
+            for (j = i; j >= gap && a[j - gap] > temp; j = j - gap)
+                a[j] = a[j - gap];
+
+            a[j] = temp;
+        }
+    }
+}
+
+void display(int a[], int n)
+{
+    int i;
+
+    printf("Sorted Array: ");
+
+    for (i = 1; i <= n; i++)
+        printf("%d ", a[i]);
+
+    printf("\n");
+}
+
+int main()
+{
+    int a[101], n, i, choice;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+
+    for (i = 1; i <= n; i++)
+        scanf("%d", &a[i]);
+
+    do
+    {
+        printf("\n----- SORTING MENU -----\n");
+        printf("1. Modified Bubble Sort\n");
+        printf("2. Insertion Sort using Sentinel\n");
+        printf("3. Shell Sort\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            bubbleSort(a + 1, n);
+            display(a, n);
+            break;
+
+        case 2:
+            insertionSentinel(a, n);
+            display(a, n);
+            break;
+
+        case 3:
+            shellSort(a + 1, n);
+            display(a, n);
+            break;
+
+        case 4:
+            printf("Exiting...\n");
+            break;
+
+        default:
+            printf("Invalid choice!\n");
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
+// -- -- -- -- -- -- -- -- -- -- -- --3rd program-- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+#include <stdio.h>
+
+void swap(int *a, int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+int partition(int a[], int low, int high)
+{
+    int pivot = a[high];
+    int i = low - 1, j;
+
+    for (j = low; j < high; j++)
+    {
+        if (a[j] < pivot)
+        {
+            i++;
+            swap(&a[i], &a[j]);
+        }
+    }
+
+    swap(&a[i + 1], &a[high]);
+    return i + 1;
+}
+
+void quickSort(int a[], int low, int high)
+{
+    if (low < high)
+    {
+        int p = partition(a, low, high);
+
+        quickSort(a, low, p - 1);
+        quickSort(a, p + 1, high);
+    }
+}
+
+int main()
+{
+    int a[100], n, i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    quickSort(a, 0, n - 1);
+
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+// -- -- -- -- -- -- -- -- -- -- -- --4th program-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+#include <stdio.h>
+
+void merge(int a[], int low, int mid, int high)
+{
+    int i = low, j = mid + 1, k = 0;
+    int temp[100];
+
+    while (i <= mid && j <= high)
+    {
+        if (a[i] < a[j])
+            temp[k++] = a[i++];
+        else
+            temp[k++] = a[j++];
+    }
+
+    while (i <= mid)
+        temp[k++] = a[i++];
+
+    while (j <= high)
+        temp[k++] = a[j++];
+
+    for (i = low, k = 0; i <= high; i++, k++)
+        a[i] = temp[k];
+}
+
+void mergeSort(int a[], int low, int high)
+{
+    if (low < high)
+    {
+        int mid = (low + high) / 2;
+
+        mergeSort(a, low, mid);
+        mergeSort(a, mid + 1, high);
+
+        merge(a, low, mid, high);
+    }
+}
+
+int main()
+{
+    int a[100], n, i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    mergeSort(a, 0, n - 1);
+
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+// -------------------------------next-------------------------------
+#include <stdio.h>
+
+int getMax(int a[], int n)
+{
+    int max = a[0], i;
+
+    for (i = 1; i < n; i++)
+        if (a[i] > max)
+            max = a[i];
+
+    return max;
+}
+
+void countingSort(int a[], int n, int exp)
+{
+    int output[100], count[10] = {0};
+    int i;
+
+    for (i = 0; i < n; i++)
+        count[(a[i] / exp) % 10]++;
+
+    for (i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+
+    for (i = n - 1; i >= 0; i--)
+    {
+        output[count[(a[i] / exp) % 10] - 1] = a[i];
+        count[(a[i] / exp) % 10]--;
+    }
+
+    for (i = 0; i < n; i++)
+        a[i] = output[i];
+}
+
+void radixSort(int a[], int n)
+{
+    int max = getMax(a, n);
+    int exp;
+
+    for (exp = 1; max / exp > 0; exp *= 10)
+        countingSort(a, n, exp);
+}
+
+int main()
+{
+    int a[100], n, i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    radixSort(a, n);
+
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
 
     return 0;
 }
