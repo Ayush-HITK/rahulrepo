@@ -396,3 +396,122 @@ int main() {
     BFS(start);
     return 0;
 }
+--------
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TABLE_SIZE 10
+
+/* Node of a linked list (one "chain" per bucket) */
+typedef struct Node {
+    int key;
+    struct Node *next;
+} Node;
+
+/* Hash table: array of linked-list heads */
+Node *table[TABLE_SIZE];
+
+/* Hash function: division method */
+int hash(int key) {
+    return key % TABLE_SIZE;
+}
+
+/* Insert key at the head of its bucket's list */
+void insert(int key) {
+    int index = hash(key);
+
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->key = key;
+    newNode->next = table[index];
+    table[index] = newNode;
+    printf("Inserted %d at index %d\n", key, index);
+}
+
+/* Search for a key; returns 1 if found, else 0 */
+int search(int key) {
+    Node *temp = table[hash(key)];
+    while (temp != NULL) {
+        if (temp->key == key)
+            return 1;
+        temp = temp->next;
+    }
+    return 0;
+}
+
+/* Delete a key from the table */
+void delete(int key) {
+    int index = hash(key);
+    Node *temp = table[index], *prev = NULL;
+
+    while (temp != NULL && temp->key != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL) {
+        printf("Key %d not found\n", key);
+        return;
+    }
+    if (prev == NULL)
+        table[index] = temp->next;   /* deleting the head */
+    else
+        prev->next = temp->next;
+    free(temp);
+    printf("Deleted %d\n", key);
+}
+
+/* Display the whole table */
+void display() {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        printf("[%d]", i);
+        for (Node *temp = table[i]; temp != NULL; temp = temp->next)
+            printf(" -> %d", temp->key);
+        printf(" -> NULL\n");
+    }
+}
+
+int main() {
+    int choice, key;
+
+    for (int i = 0; i < TABLE_SIZE; i++)
+        table[i] = NULL;
+
+    while (1) {
+        printf("\n1. Insert\n2. Search\n3. Delete\n4. Display\n5. Exit\n");
+        printf("Enter choice: ");
+        if (scanf("%d", &choice) != 1)
+            break;
+
+        switch (choice) {
+            case 1:
+                printf("Enter key: ");
+                scanf("%d", &key);
+                insert(key);
+                break;
+            case 2:
+                printf("Enter key: ");
+                scanf("%d", &key);
+                if (search(key))
+                    printf("Key %d found at index %d\n", key, hash(key));
+                else
+                    printf("Key %d not found\n", key);
+                break;
+            case 3:
+                printf("Enter key: ");
+                scanf("%d", &key);
+                delete(key);
+                break;
+            case 4:
+                display();
+                break;
+            case 5:
+                return 0;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
