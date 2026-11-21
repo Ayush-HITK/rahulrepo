@@ -396,3 +396,139 @@ int main(){
     for(i=0;i<n;i++)printf("%s\n",a[i]);
     return 0;
 }
+#include<stdio.h>
+int main(){
+    int a[100],n,x,l=0,r,m,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter sorted elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    printf("Enter element: ");
+    scanf("%d",&x);
+    r=n-1;
+    while(l<=r){
+        m=(l+r)/2;
+        if(a[m]==x){
+            printf("Found at position %d",m+1);
+            return 0;
+        }
+        if(x<a[m])r=m-1;
+        else l=m+1;
+    }
+    printf("Not Found");
+    return 0;
+}
+-----
+bubble sort,insertion,shell
+#include<stdio.h>
+int main(){
+    int a[100],n,i,j,t,flag;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    for(i=0;i<n-1;i++){
+        flag=0;
+        for(j=0;j<n-i-1;j++){
+            if(a[j]>a[j+1]){
+                t=a[j];
+                a[j]=a[j+1];
+                a[j+1]=t;
+                flag=1;
+            }
+        }
+        if(flag==0)break;
+    }
+    printf("Sorted array: ");
+    for(i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+-
+#include<stdio.h>
+int main(){
+    int a[101],n,i,j,key;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=1;i<=n;i++)scanf("%d",&a[i]);
+    a[0]=-999999;
+    for(i=2;i<=n;i++){
+        key=a[i];
+        j=i-1;
+        while(a[j]>key){
+            a[j+1]=a[j];
+            j--;
+        }
+        a[j+1]=key;
+    }
+    printf("Sorted array: ");
+    for(i=1;i<=n;i++)printf("%d ",a[i]);
+    return 0;
+}
+-
+#include<stdio.h>
+int main(){
+    int a[100],n,i,j,gap,temp;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    for(gap=n/2;gap>0;gap/=2){
+        for(i=gap;i<n;i++){
+            temp=a[i];
+            for(j=i;j>=gap&&a[j-gap]>temp;j-=gap)
+                a[j]=a[j-gap];
+            a[j]=temp;
+        }
+    }
+    printf("Sorted array: ");
+    for(i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+----
+linear
+#include<stdio.h>
+int main(){
+    int a[101],n,x,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    printf("Enter element: ");
+    scanf("%d",&x);
+    a[n]=x;
+    i=0;
+    while(a[i]!=x)i++;
+    if(i==n)printf("Not Found");
+    else printf("Found at position %d",i+1);
+    return 0;
+}
+---
+interpolation 
+#include<stdio.h>
+int main(){
+    int a[100],n,x,l=0,h,pos,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter sorted elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    printf("Enter element: ");
+    scanf("%d",&x);
+    h=n-1;
+    while(l<=h&&x>=a[l]&&x<=a[h]){
+        if(a[l]==a[h]){
+            if(a[l]==x)printf("Found at position %d",l+1);
+            else printf("Not Found");
+            return 0;
+        }
+        pos=l+(double)(x-a[l])*(h-l)/(a[h]-a[l]);
+        if(a[pos]==x){
+            printf("Found at position %d",pos+1);
+            return 0;
+        }
+        if(a[pos]<x)l=pos+1;
+        else h=pos-1;
+    }
+    printf("Not Found");
+    return 0;
+}
