@@ -265,3 +265,134 @@ int main(){
     }
 }
 -----------
+#include<stdio.h>
+void quick(int a[],int low,int high){
+    int i=low,j=high,p=a[low],t;
+    if(low>=high)return;
+    while(i<j){
+        while(a[i]<=p&&i<high)i++;
+        while(a[j]>p)j--;
+        if(i<j){
+            t=a[i];a[i]=a[j];a[j]=t;
+        }
+    }
+    a[low]=a[j];
+    a[j]=p;
+    quick(a,low,j-1);
+    quick(a,j+1,high);
+}
+int main(){
+    int a[100],n,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    quick(a,0,n-1);
+    printf("Sorted array: ");
+    for(i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+---------
+#include<stdio.h>
+void merge(int a[],int l,int m,int r){
+    int b[100],i=l,j=m+1,k=l;
+    while(i<=m&&j<=r){
+        if(a[i]<a[j])b[k++]=a[i++];
+        else b[k++]=a[j++];
+    }
+    while(i<=m)b[k++]=a[i++];
+    while(j<=r)b[k++]=a[j++];
+    for(i=l;i<=r;i++)a[i]=b[i];
+}
+void sort(int a[],int l,int r){
+    if(l<r){
+        int m=(l+r)/2;
+        sort(a,l,m);
+        sort(a,m+1,r);
+        merge(a,l,m,r);
+    }
+}
+int main(){
+    int a[100],n,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    sort(a,0,n-1);
+    printf("Sorted array: ");
+    for(i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+---------
+#include<stdio.h>
+int getMax(int a[],int n){
+    int m=a[0],i;
+    for(i=1;i<n;i++)
+        if(a[i]>m)m=a[i];
+    return m;
+}
+void countSort(int a[],int n,int exp){
+    int b[100],c[10]={0},i;
+    for(i=0;i<n;i++)c[(a[i]/exp)%10]++;
+    for(i=1;i<10;i++)c[i]+=c[i-1];
+    for(i=n-1;i>=0;i--)
+        b[--c[(a[i]/exp)%10]]=a[i];
+    for(i=0;i<n;i++)a[i]=b[i];
+}
+void radixSort(int a[],int n){
+    int m=getMax(a,n),exp;
+    for(exp=1;m/exp>0;){
+        countSort(a,n,exp);
+        if(exp>m/10)break;
+        exp*=10;
+    }
+}
+int main(){
+    int a[100],n,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    radixSort(a,n);
+    printf("Sorted array: ");
+    for(i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+------
+#include<stdio.h>
+#include<string.h>
+#define N 50
+#define L 100
+
+void radixSort(char a[][L],int n){
+    char b[N][L];
+    int i,j,k,max=0,c[257],pos;
+    for(i=0;i<n;i++)
+        if(strlen(a[i])>max)max=strlen(a[i]);
+
+    for(pos=max-1;pos>=0;pos--){
+        for(i=0;i<257;i++)c[i]=0;
+        for(i=0;i<n;i++){
+            k=pos<strlen(a[i])?(unsigned char)a[i][pos]+1:0;
+            c[k]++;
+        }
+        for(i=1;i<257;i++)c[i]+=c[i-1];
+        for(i=n-1;i>=0;i--){
+            k=pos<strlen(a[i])?(unsigned char)a[i][pos]+1:0;
+            strcpy(b[--c[k]],a[i]);
+        }
+        for(i=0;i<n;i++)strcpy(a[i],b[i]);
+    }
+}
+int main(){
+    char a[N][L];
+    int n,i;
+    printf("Enter number of words: ");
+    scanf("%d",&n);
+    printf("Enter words: ");
+    for(i=0;i<n;i++)scanf("%99s",a[i]);
+    radixSort(a,n);
+    printf("Sorted words:\n");
+    for(i=0;i<n;i++)printf("%s\n",a[i]);
+    return 0;
+}
