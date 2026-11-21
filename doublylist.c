@@ -1,517 +1,99 @@
-
-#include <stdio.h>
-
-void heapify(int a[], int n, int i)
-{
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
-    int temp;
-
-    if (left < n && a[left] > a[largest])
-        largest = left;
-
-    if (right < n && a[right] > a[largest])
-        largest = right;
-
-    if (largest != i)
-    {
-        temp = a[i];
-        a[i] = a[largest];
-        a[largest] = temp;
-
-        heapify(a, n, largest);
-    }
-}
-
-void heapSort(int a[], int n)
-{
-    int i, temp;
-
-    for (i = n / 2 - 1; i >= 0; i--)
-        heapify(a, n, i);
-
-    for (i = n - 1; i > 0; i--)
-    {
-        temp = a[0];
-        a[0] = a[i];
-        a[i] = temp;
-
-        heapify(a, i, 0);
-    }
-}
-
-int main()
-{
-    int a[100], n, i;
-
-    printf("Enter the number of elements: ");
-    scanf("%d", &n);
-
-    if (n <= 0 || n > 100)
-    {
-        printf("Invalid number of elements.\n");
-        return 0;
-    }
-
-    printf("Enter the elements:\n");
-    for (i = 0; i < n; i++)
-        scanf("%d", &a[i]);
-
-    heapSort(a, n);
-
-    printf("Sorted array:\n");
-    for (i = 0; i < n; i++)
-        printf("%d ", a[i]);
-
-    printf("\n");
-
-    return 0;
-}
------------------------
-
-#include <stdio.h>
-
-#define SIZE 10
-
-int hashTable[SIZE];
-
-void initialize()
-{
-    int i;
-
-    for (i = 0; i < SIZE; i++)
-        hashTable[i] = -1;
-}
-
-void insert(int key)
-{
-    int index, i, pos;
-
-    index = key % SIZE;
-
-    for (i = 0; i < SIZE; i++)
-    {
-        pos = (index + i) % SIZE;
-
-        if (hashTable[pos] == key)
-        {
-            printf("Key already exists.\n");
-            return;
-        }
-
-        if (hashTable[pos] == -1)
-        {
-            hashTable[pos] = key;
-            printf("Key inserted successfully.\n");
-            return;
-        }
-    }
-
-    printf("Hash table is full.\n");
-}
-
-void search(int key)
-{
-    int index, i, pos;
-
-    index = key % SIZE;
-
-    for (i = 0; i < SIZE; i++)
-    {
-        pos = (index + i) % SIZE;
-
-        if (hashTable[pos] == key)
-        {
-            printf("Key found at index %d.\n", pos);
-            return;
-        }
-
-        if (hashTable[pos] == -1)
-            break;
-    }
-
-    printf("Key not found.\n");
-}
-
-void display()
-{
-    int i;
-
-    printf("\nHash Table:\n");
-
-    for (i = 0; i < SIZE; i++)
-    {
-        if (hashTable[i] == -1)
-            printf("%d : Empty\n", i);
-        else
-            printf("%d : %d\n", i, hashTable[i]);
-    }
-}
-
-int main()
-{
-    int choice, key;
-
-    initialize();
-
-    do
-    {
-        printf("\n1. Insert\n");
-        printf("2. Search\n");
-        printf("3. Display\n");
-        printf("4. Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        switch (choice)
-        {
-            case 1:
-                printf("Enter key: ");
-                scanf("%d", &key);
-
-                if (key < 0)
-                    printf("Invalid key.\n");
-                else
-                    insert(key);
-                break;
-
-            case 2:
-                printf("Enter key to search: ");
-                scanf("%d", &key);
-
-                if (key < 0)
-                    printf("Invalid key.\n");
-                else
-                    search(key);
-                break;
-
-            case 3:
-                display();
-                break;
-
-            case 4:
-                printf("Exiting program.\n");
-                break;
-
-            default:
-                printf("Invalid choice.\n");
-        }
-    } while (choice != 4);
-
-    return 0;
-}
----------------
-#include <stdio.h>
-#include <stdlib.h>
-struct Node {
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
     int data;
-    struct Node *left, *right;
+    struct node *left,*right;
 };
-struct Node *createNode(int data) {
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    newNode->data = data;
-    newNode->left = newNode->right = NULL;
-    return newNode;
+struct node* create(int x){
+    struct node *p=malloc(sizeof(struct node));
+    p->data=x;
+    p->left=p->right=NULL;
+    return p;
 }
-struct Node *insert(struct Node *root, int data) {
-    if (root == NULL)
-        return createNode(data);
-    if (data < root->data)
-        root->left = insert(root->left, data);
-    else if (data > root->data)
-        root->right = insert(root->right, data);
-    return root;
+struct node* insert(struct node *r,int x){
+    if(r==NULL)return create(x);
+    if(x<r->data)r->left=insert(r->left,x);
+    else if(x>r->data)r->right=insert(r->right,x);
+    return r;
 }
-void inorder(struct Node *root) {
-    if (root != NULL) {
-        inorder(root->left);
-        printf("%d ", root->data);
-        inorder(root->right);
-    }
+void inorder(struct node *r){
+    if(r){inorder(r->left);printf("%d ",r->data);inorder(r->right);}
 }
-void preorder(struct Node *root) {
-    if (root != NULL) {
-        printf("%d ", root->data);
-        preorder(root->left);
-        preorder(root->right);
-    }
+void preorder(struct node *r){
+    if(r){printf("%d ",r->data);preorder(r->left);preorder(r->right);}
 }
-void postorder(struct Node *root) {
-    if (root != NULL) {
-        postorder(root->left);
-        postorder(root->right);
-        printf("%d ", root->data);
-    }
+void postorder(struct node *r){
+    if(r){postorder(r->left);postorder(r->right);printf("%d ",r->data);}
 }
-struct Node *search(struct Node *root, int key) {
-    if (root == NULL || root->data == key)
-        return root;
-    if (key < root->data)
-        return search(root->left, key);
-    return search(root->right, key);
+struct node* search(struct node *r,int x){
+    if(r==NULL||r->data==x)return r;
+    if(x<r->data)return search(r->left,x);
+    return search(r->right,x);
 }
-struct Node *findMin(struct Node *root) {
-    while (root->left != NULL)
-        root = root->left;
-    return root;
-}
-struct Node *deleteNode(struct Node *root, int key) {
-    if (root == NULL)
-        return root;
-    if (key < root->data)
-        root->left = deleteNode(root->left, key);
-    else if (key > root->data)
-        root->right = deleteNode(root->right, key);
-    else {
-        if (root->left == NULL) {
-            struct Node *temp = root->right;
-            free(root);
-            return temp;
+struct node* delete(struct node *r,int x){
+    if(r==NULL)return NULL;
+    if(x<r->data)r->left=delete(r->left,x);
+    else if(x>r->data)r->right=delete(r->right,x);
+    else{
+        if(r->left==NULL){
+            struct node *t=r->right;
+            free(r);
+            return t;
         }
-        else if (root->right == NULL) {
-            struct Node *temp = root->left;
-            free(root);
-            return temp;
+        if(r->right==NULL){
+            struct node *t=r->left;
+            free(r);
+            return t;
         }
-        struct Node *temp = findMin(root->right);
-        root->data = temp->data;
-        root->right = deleteNode(root->right, temp->data);
+        struct node *t=r->right;
+        while(t->left)t=t->left;
+        r->data=t->data;
+        r->right=delete(r->right,t->data);
     }
-    return root;
+    return r;
 }
-int main() {
-    struct Node *root = NULL;
-    int choice, data, n, i;
-    while (1) {
-        printf("\n1.Create BST\n2.Insertion\n3.Inorder\n4.Preorder\n5.Postorder\n6.Deletion\n7.Searching\n8.Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-        switch (choice) {
+int main(){
+    struct node *root=NULL;
+    int ch,x,n,i;
+    while(1){
+        printf("\n1.Create\n2.Insert\n3.Inorder\n4.Preorder\n5.Postorder\n6.Delete\n7.Search\n8.Exit\n");
+        scanf("%d",&ch);
+        switch(ch){
             case 1:
-                root = NULL;
+                root=NULL;
                 printf("Enter number of nodes: ");
-                scanf("%d", &n);
-                for (i = 0; i < n; i++) {
-                    printf("Enter data: ");
-                    scanf("%d", &data);
-                    root = insert(root, data);
+                scanf("%d",&n);
+                for(i=0;i<n;i++){
+                    scanf("%d",&x);
+                    root=insert(root,x);
                 }
                 break;
             case 2:
-                printf("Enter data to insert: ");
-                scanf("%d", &data);
-                root = insert(root, data);
+                scanf("%d",&x);
+                root=insert(root,x);
                 break;
             case 3:
-                printf("Inorder Traversal: ");
                 inorder(root);
-                printf("\n");
                 break;
             case 4:
-                printf("Preorder Traversal: ");
                 preorder(root);
-                printf("\n");
                 break;
             case 5:
-                printf("Postorder Traversal: ");
                 postorder(root);
-                printf("\n");
                 break;
             case 6:
-                printf("Enter data to delete: ");
-                scanf("%d", &data);
-                root = deleteNode(root, data);
+                scanf("%d",&x);
+                root=delete(root,x);
                 break;
             case 7:
-                printf("Enter data to search: ");
-                scanf("%d", &data);
-                if (search(root, data) != NULL)
-                    printf("Element found\n");
-                else
-                    printf("Element not found\n");
+                scanf("%d",&x);
+                if(search(root,x))printf("Found");
+                else printf("Not Found");
                 break;
             case 8:
-                return 0;
+                exit(0);
             default:
-                printf("Invalid choice\n");
+                printf("Invalid Choice");
         }
     }
-}
-#include <stdio.h>
-#define MAX 100
-int graph[MAX][MAX], visited[MAX], queue[MAX];
-int front = -1, rear = -1, n;
-void enqueue(int vertex) {
-    if (rear == MAX - 1)
-        return;
-    if (front == -1)
-        front = 0;
-    queue[++rear] = vertex;
-}
-int dequeue() {
-    if (front == -1 || front > rear)
-        return -1;
-    return queue[front++];
-}
-void BFS(int start) {
-    int vertex, i;
-    for (i = 0; i < n; i++)
-        visited[i] = 0;
-    front = rear = -1;
-    visited[start] = 1;
-    enqueue(start);
-    printf("BFS Traversal: ");
-    while (front != -1 && front <= rear) {
-        vertex = dequeue();
-        printf("%d ", vertex);
-        for (i = 0; i < n; i++) {
-            if (graph[vertex][i] == 1 && visited[i] == 0) {
-                visited[i] = 1;
-                enqueue(i);
-            }
-        }
-    }
-    printf("\n");
-}
-int main() {
-    int i, j, start;
-    printf("Enter number of vertices: ");
-    scanf("%d", &n);
-    if (n <= 0 || n > MAX) {
-        printf("Invalid number of vertices\n");
-        return 1;
-    }
-    printf("Enter adjacency matrix:\n");
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++)
-            scanf("%d", &graph[i][j]);
-    }
-    printf("Enter starting vertex (0 to %d): ", n - 1);
-    scanf("%d", &start);
-    if (start < 0 || start >= n) {
-        printf("Invalid starting vertex\n");
-        return 1;
-    }
-    BFS(start);
-    return 0;
-}
---------
-#include <stdio.h>
-#include <stdlib.h>
-
-#define TABLE_SIZE 10
-
-/* Node of a linked list (one "chain" per bucket) */
-typedef struct Node {
-    int key;
-    struct Node *next;
-} Node;
-
-/* Hash table: array of linked-list heads */
-Node *table[TABLE_SIZE];
-
-/* Hash function: division method */
-int hash(int key) {
-    return key % TABLE_SIZE;
-}
-
-/* Insert key at the head of its bucket's list */
-void insert(int key) {
-    int index = hash(key);
-
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    if (newNode == NULL) {
-        printf("Memory allocation failed\n");
-        return;
-    }
-    newNode->key = key;
-    newNode->next = table[index];
-    table[index] = newNode;
-    printf("Inserted %d at index %d\n", key, index);
-}
-
-/* Search for a key; returns 1 if found, else 0 */
-int search(int key) {
-    Node *temp = table[hash(key)];
-    while (temp != NULL) {
-        if (temp->key == key)
-            return 1;
-        temp = temp->next;
-    }
-    return 0;
-}
-
-/* Delete a key from the table */
-void delete(int key) {
-    int index = hash(key);
-    Node *temp = table[index], *prev = NULL;
-
-    while (temp != NULL && temp->key != key) {
-        prev = temp;
-        temp = temp->next;
-    }
-    if (temp == NULL) {
-        printf("Key %d not found\n", key);
-        return;
-    }
-    if (prev == NULL)
-        table[index] = temp->next;   /* deleting the head */
-    else
-        prev->next = temp->next;
-    free(temp);
-    printf("Deleted %d\n", key);
-}
-
-/* Display the whole table */
-void display() {
-    for (int i = 0; i < TABLE_SIZE; i++) {
-        printf("[%d]", i);
-        for (Node *temp = table[i]; temp != NULL; temp = temp->next)
-            printf(" -> %d", temp->key);
-        printf(" -> NULL\n");
-    }
-}
-
-int main() {
-    int choice, key;
-
-    for (int i = 0; i < TABLE_SIZE; i++)
-        table[i] = NULL;
-
-    while (1) {
-        printf("\n1. Insert\n2. Search\n3. Delete\n4. Display\n5. Exit\n");
-        printf("Enter choice: ");
-        if (scanf("%d", &choice) != 1)
-            break;
-
-        switch (choice) {
-            case 1:
-                printf("Enter key: ");
-                scanf("%d", &key);
-                insert(key);
-                break;
-            case 2:
-                printf("Enter key: ");
-                scanf("%d", &key);
-                if (search(key))
-                    printf("Key %d found at index %d\n", key, hash(key));
-                else
-                    printf("Key %d not found\n", key);
-                break;
-            case 3:
-                printf("Enter key: ");
-                scanf("%d", &key);
-                delete(key);
-                break;
-            case 4:
-                display();
-                break;
-            case 5:
-                return 0;
-            default:
-                printf("Invalid choice\n");
-        }
-    }
-    return 0;
 }
