@@ -150,3 +150,118 @@ int main(){
     dfs(s);
     return 0;
 }
+--------
+#include<stdio.h>
+void heapify(int a[],int n,int i){
+    int l=2*i+1,r=2*i+2,largest=i,t;
+    if(l<n&&a[l]>a[largest])largest=l;
+    if(r<n&&a[r]>a[largest])largest=r;
+    if(largest!=i){
+        t=a[i];a[i]=a[largest];a[largest]=t;
+        heapify(a,n,largest);
+    }
+}
+void heapSort(int a[],int n){
+    int i,t;
+    for(i=n/2-1;i>=0;i--)heapify(a,n,i);
+    for(i=n-1;i>0;i--){
+        t=a[0];a[0]=a[i];a[i]=t;
+        heapify(a,i,0);
+    }
+}
+int main(){
+    int a[100],n,i;
+    printf("Enter size: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++)scanf("%d",&a[i]);
+    heapSort(a,n);
+    printf("Sorted array: ");
+    for(i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+-----------
+#include<stdio.h>
+#define SIZE 10
+int h[SIZE];
+void insert(int x){
+    int i=x%SIZE,j;
+    for(j=0;j<SIZE;j++){
+        if(h[(i+j)%SIZE]==-1){
+            h[(i+j)%SIZE]=x;
+            return;
+        }
+    }
+    printf("Hash Table Full\n");
+}
+void display(){
+    int i;
+    for(i=0;i<SIZE;i++)
+        printf("%d : %d\n",i,h[i]);
+}
+int main(){
+    int i,n,x;
+    for(i=0;i<SIZE;i++)h[i]=-1;
+    printf("Enter number of elements: ");
+    scanf("%d",&n);
+    printf("Enter elements: ");
+    for(i=0;i<n;i++){
+        scanf("%d",&x);
+        insert(x);
+    }
+    display();
+    return 0;
+}
+---------
+#include<stdio.h>
+int h[100],n=0;
+void insert(int x){
+    int i=n++;
+    while(i>0&&h[(i-1)/2]<x){
+        h[i]=h[(i-1)/2];
+        i=(i-1)/2;
+    }
+    h[i]=x;
+}
+void delete(){
+    int i=0,x;
+    if(n==0){printf("Empty\n");return;}
+    printf("Deleted: %d\n",h[0]);
+    x=h[--n];
+    while(2*i+1<n){
+        int c=2*i+1;
+        if(c+1<n&&h[c+1]>h[c])c++;
+        if(h[c]<=x)break;
+        h[i]=h[c];
+        i=c;
+    }
+    h[i]=x;
+}
+void display(){
+    int i;
+    for(i=0;i<n;i++)printf("%d ",h[i]);
+}
+int main(){
+    int ch,x;
+    while(1){
+        printf("\n1.Insert 2.Delete 3.Display 4.Exit\n");
+        scanf("%d",&ch);
+        switch(ch){
+            case 1:
+                scanf("%d",&x);
+                insert(x);
+                break;
+            case 2:
+                delete();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                return 0;
+            default:
+                printf("Invalid Choice");
+        }
+    }
+}
+-----------
