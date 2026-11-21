@@ -97,3 +97,56 @@ int main(){
         }
     }
 }
+------------
+#include<stdio.h>
+int main(){
+    int a[20][20],q[20],v[20]={0};
+    int n,s,f=0,r=-1,i,j;
+    printf("Enter number of vertices: ");
+    scanf("%d",&n);
+    printf("Enter adjacency matrix:\n");
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+            scanf("%d",&a[i][j]);
+    printf("Enter starting vertex: ");
+    scanf("%d",&s);
+    q[++r]=s;
+    v[s]=1;
+    printf("BFS: ");
+    while(f<=r){
+        s=q[f++];
+        printf("%d ",s);
+        for(i=1;i<=n;i++){
+            if(a[s][i]&&!v[i]){
+                q[++r]=i;
+                v[i]=1;
+            }
+        }
+    }
+    return 0;
+}
+----------
+#include<stdio.h>
+int a[20][20],v[20]={0},n;
+void dfs(int s){
+    int i;
+    printf("%d ",s);
+    v[s]=1;
+    for(i=1;i<=n;i++)
+        if(a[s][i]&&!v[i])
+            dfs(i);
+}
+int main(){
+    int i,j,s;
+    printf("Enter number of vertices: ");
+    scanf("%d",&n);
+    printf("Enter adjacency matrix:\n");
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+            scanf("%d",&a[i][j]);
+    printf("Enter starting vertex: ");
+    scanf("%d",&s);
+    printf("DFS: ");
+    dfs(s);
+    return 0;
+}
